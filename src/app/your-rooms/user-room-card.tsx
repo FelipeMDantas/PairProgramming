@@ -31,8 +31,10 @@ export function UserRoomCard({ room }: { room: Room }) {
   return (
     <Card>
       <CardHeader className="relative">
-        <Button className="absolute top-2 right-2" size='icon'>
-          <PencilIcon />
+        <Button className="absolute top-2 right-2" size="icon">
+          <Link href={`/edit-room/${room.id}`}>
+            <PencilIcon />
+          </Link>
         </Button>
         <CardTitle>{room.name}</CardTitle>
         <CardDescription>{room.description}</CardDescription>

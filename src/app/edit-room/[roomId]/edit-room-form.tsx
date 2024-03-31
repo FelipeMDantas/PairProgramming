@@ -14,9 +14,10 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { createRoomAction } from "./actions";
-import { useRouter } from "next/navigation";
-import { useToast } from "@/components/ui/use-toast";
+import { editRoomAction } from "./actions";
+import { useParams } from "next/navigation";
+import { Room } from "@/db/schema";
+import { toast } from "@/components/ui/use-toast";
 
 const formSchema = z.object({
   name: z.string().min(1).max(50),
@@ -25,28 +26,25 @@ const formSchema = z.object({
   tags: z.string().min(1).max(50),
 });
 
-export function CreateRoomForm() {
-  const { toast } = useToast();
-
-  const router = useRouter();
+export function EditRoomForm({ room }: { room: Room }) {
+  const params = useParams();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
-      description: "",
-      githubRepo: "",
-      tags: "",
+      name: room.name,
+      description: room.description ?? "",
+      githubRepo: room.githubRepo ?? "",
+      tags: room.tags,
     },
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const room = await createRoomAction(values);
+    await editRoomAction({ id: params.roomId as string, ...values });
     toast({
-      title: "Room created",
-      description: "Your room was successfully created",
+      title: "Room updated",
+      description: "Your room was successfully updated",
     });
-    router.push(`/rooms/${room.id}`);
   }
 
   return (
