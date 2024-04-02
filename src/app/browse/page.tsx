@@ -32,7 +32,7 @@ export default async function Home({
       </div>
 
       {rooms.length === 0 && (
-        <div>
+        <div className="flex justify-center items-center flex-col gap-4 mt-24">
           <Image
             src="/no-data.svg"
             width="200"
@@ -40,7 +40,7 @@ export default async function Home({
             alt="no data image"
           />
 
-          <h2>No Rooms Yet, Create One!</h2>
+          <h2 className="text-2xl">No Rooms Yet, Create One!</h2>
         </div>
       )}
     </main>
